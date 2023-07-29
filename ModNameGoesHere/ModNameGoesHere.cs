@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
 using NeosModLoader;
+using FrooxEngine;
+using FrooxEngine.LogiX;
 
 namespace ModNameGoesHere
 {
@@ -15,12 +17,14 @@ namespace ModNameGoesHere
             harmony.PatchAll();
         }
 		
-        [HarmonyPatch(typeof(class you want to patch), "name of method you want to patch")]
+        [HarmonyPatch(typeof(LogixNode), "GenerateConnectPoint")]
         class ModNameGoesHerePatch
         {
-            public static bool Prefix()
+            public static bool Prefix(ref bool outputSide, ref bool isOutput)
             {
-                return false;//dont run rest of method
+                outputSide = !outputSide;
+                isOutput = !isOutput;
+                return true;
             }
         }
     }
